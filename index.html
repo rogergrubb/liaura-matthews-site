@@ -679,13 +679,6 @@
             margin-bottom: 3rem;
         }
 
-        .connect-buttons {
-            display: flex;
-            gap: 1.2rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
         .connect-cta {
             display: inline-flex;
             align-items: center;
@@ -698,35 +691,229 @@
             border-radius: 50px;
             transition: all 0.4s ease;
             cursor: pointer;
-        }
-
-        .connect-cta.primary {
             background: var(--gold);
             color: white;
             border: 2px solid var(--gold);
+            font-family: var(--font-body);
         }
 
-        .connect-cta.primary:hover {
+        .connect-cta:hover {
             background: var(--rose-deep);
             border-color: var(--rose-deep);
             transform: translateY(-3px);
             box-shadow: 0 15px 40px rgba(169, 107, 91, 0.25);
         }
 
-        .connect-cta.secondary {
-            color: var(--gold);
-            border: 2px solid var(--gold);
-            background: transparent;
-        }
-
-        .connect-cta.secondary:hover {
-            background: var(--gold);
-            color: white;
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(201, 168, 76, 0.25);
-        }
-
         .connect-cta svg { width: 18px; height: 18px; }
+
+        /* Contact Overlay */
+        .contact-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(44, 40, 36, 0.6);
+            z-index: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 2rem;
+        }
+
+        .contact-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .contact-panel {
+            width: 100%;
+            max-width: 480px;
+            background: var(--warm-white);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: 0 30px 80px rgba(44, 40, 36, 0.3);
+            transform: translateY(20px) scale(0.97);
+            opacity: 0;
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                        opacity 0.5s ease;
+        }
+
+        .contact-overlay.active .contact-panel {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+            transition-delay: 0.1s;
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1.2rem;
+            border-bottom: 1px solid var(--blush-light);
+        }
+
+        .panel-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--sage);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .panel-title {
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--charcoal);
+            letter-spacing: 0.02em;
+        }
+
+        .panel-close {
+            margin-left: auto;
+            background: none;
+            border: none;
+            color: var(--light-gray);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.25rem 0.5rem;
+            line-height: 1;
+            transition: color 0.2s ease;
+            border-radius: 8px;
+        }
+
+        .panel-close:hover { color: var(--charcoal); }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-field { position: relative; }
+
+        .form-label {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--light-gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 1.5px solid var(--blush-light);
+            color: var(--charcoal);
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 300;
+            padding: 0.75rem 0;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input::placeholder { color: var(--light-gray); }
+        .form-input:focus { border-color: var(--gold); }
+
+        .form-input.textarea {
+            resize: none;
+            min-height: 80px;
+            line-height: 1.6;
+        }
+
+        .form-submit {
+            align-self: flex-start;
+            background: var(--gold);
+            border: none;
+            color: white;
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            font-weight: 400;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-submit:hover {
+            background: var(--rose-deep);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(169, 107, 91, 0.2);
+        }
+
+        .form-submit.sending {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .form-submit.sending::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer { 100% { left: 100%; } }
+
+        .contact-success {
+            display: none;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .contact-success.active { display: block; }
+        .contact-form.hidden { display: none; }
+
+        .success-icon {
+            width: 56px;
+            height: 56px;
+            border: 2px solid var(--sage);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            animation: scaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes scaleIn {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .success-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--sage);
+            stroke-width: 2.5;
+            fill: none;
+        }
+
+        .success-message {
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-style: italic;
+            color: var(--warm-gray);
+            line-height: 1.8;
+        }
 
         .footer {
             background: var(--charcoal);
@@ -936,16 +1123,44 @@
             <span class="section-label">Say Hello</span>
             <h2 class="section-title">Want to Get to <em>Know Her?</em></h2>
             <p class="connect-description">Liaura is looking for authentic connection &#8212; the kind that starts with a real conversation and grows into something meaningful. If that sounds like your kind of thing, don't be a stranger.</p>
-            <a href="sms:7074957525&body=Happy%2062nd%20Birthday%20Liaura!%20%F0%9F%8E%82%E2%9C%A8" class="connect-cta primary">
+            <button class="connect-cta primary" id="contact-trigger">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" /></svg>
-                Send Her a Text
-            </a>
-            <a href="mailto:daisy2222@sbcglobal.net?subject=Happy%2062nd%20Birthday%20Liaura!&body=Happy%20Birthday%20Liaura!%20%F0%9F%8E%82%20Wishing%20you%20the%20most%20amazing%2062nd!" class="connect-cta secondary">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>
-                Send Her an Email
-            </a>
+                Send Liaura a Message
+            </button>
         </div>
     </section>
+
+    <!-- CONTACT OVERLAY -->
+    <div class="contact-overlay" id="contact-overlay">
+        <div class="contact-panel">
+            <div class="panel-header">
+                <div class="panel-dot"></div>
+                <span class="panel-title">Send Liaura a Message</span>
+                <button class="panel-close" id="panel-close">&times;</button>
+            </div>
+            <div class="contact-form" id="contact-form">
+                <div class="form-field">
+                    <label class="form-label">Your Name</label>
+                    <input type="text" class="form-input" id="contact-name" placeholder="Your name" autocomplete="name">
+                </div>
+                <div class="form-field">
+                    <label class="form-label">Your Email or Phone</label>
+                    <input type="text" class="form-input" id="contact-email" placeholder="So she can write back" autocomplete="email">
+                </div>
+                <div class="form-field">
+                    <label class="form-label">Your Message</label>
+                    <textarea class="form-input textarea" id="contact-message" placeholder="Say something nice..."></textarea>
+                </div>
+                <button type="button" class="form-submit" id="form-submit">Send Message</button>
+            </div>
+            <div class="contact-success" id="contact-success">
+                <div class="success-icon">
+                    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </div>
+                <p class="success-message" id="success-text"></p>
+            </div>
+        </div>
+    </div>
 
     <footer class="footer">
         <p>Made with <span>&#9829;</span> for Liaura's 62nd birthday &#183; From a friend who's known her since El Cerrito High</p>
@@ -969,6 +1184,96 @@
                 mobileMenu.classList.remove('active');
                 navLinks.classList.remove('active');
             });
+        });
+
+        // ===== Contact overlay =====
+        const contactOverlay = document.getElementById('contact-overlay');
+        const contactForm = document.getElementById('contact-form');
+        const contactSuccess = document.getElementById('contact-success');
+        const contactTrigger = document.getElementById('contact-trigger');
+        const panelClose = document.getElementById('panel-close');
+        const formSubmitBtn = document.getElementById('form-submit');
+        const successText = document.getElementById('success-text');
+
+        function openContact() {
+            contactOverlay.classList.add('active');
+            setTimeout(() => document.getElementById('contact-name').focus(), 300);
+        }
+
+        function closeContact() {
+            contactOverlay.classList.remove('active');
+            setTimeout(() => {
+                contactForm.classList.remove('hidden');
+                contactSuccess.classList.remove('active');
+                document.getElementById('contact-name').value = '';
+                document.getElementById('contact-email').value = '';
+                document.getElementById('contact-message').value = '';
+                formSubmitBtn.classList.remove('sending');
+                formSubmitBtn.textContent = 'Send Message';
+                successText.textContent = '';
+            }, 400);
+        }
+
+        function typewriterEffect(el, text, speed) {
+            speed = speed || 30;
+            var i = 0;
+            el.textContent = '';
+            function type() {
+                if (i < text.length) {
+                    el.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+
+        contactTrigger.addEventListener('click', openContact);
+        panelClose.addEventListener('click', closeContact);
+        contactOverlay.addEventListener('click', function(e) {
+            if (e.target === contactOverlay) closeContact();
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeContact();
+        });
+
+        formSubmitBtn.addEventListener('click', async function() {
+            var name = document.getElementById('contact-name').value.trim();
+            var email = document.getElementById('contact-email').value.trim();
+            var message = document.getElementById('contact-message').value.trim();
+
+            if (!name) { document.getElementById('contact-name').focus(); return; }
+            if (!email) { document.getElementById('contact-email').focus(); return; }
+            if (!message) { document.getElementById('contact-message').focus(); return; }
+
+            formSubmitBtn.classList.add('sending');
+            formSubmitBtn.textContent = 'Sending...';
+
+            try {
+                var response = await fetch('https://formsubmit.co/ajax/daisy2222@sbcglobal.net', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({
+                        name: name,
+                        email: email,
+                        message: message,
+                        _subject: 'Birthday message from ' + name + ' via your website!',
+                        _template: 'box'
+                    })
+                });
+
+                if (response.ok) {
+                    contactForm.classList.add('hidden');
+                    contactSuccess.classList.add('active');
+                    typewriterEffect(successText, 'Your message is on its way to Liaura. Thank you for the birthday love!', 30);
+                    setTimeout(closeContact, 5000);
+                } else {
+                    throw new Error('fail');
+                }
+            } catch (err) {
+                formSubmitBtn.classList.remove('sending');
+                formSubmitBtn.textContent = 'Try Again';
+            }
         });
 
         const reveals = document.querySelectorAll('.reveal');
