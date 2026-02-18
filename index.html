@@ -774,12 +774,12 @@
     <div class="confetti-container" id="confetti"></div>
 
     <nav class="nav" id="nav">
-        <a href="#home" class="nav-logo">Liaura <span>&#10038;</span> 62</a>
+        <a href="javascript:void(0)" data-scroll="home" class="nav-logo">Liaura <span>&#10038;</span> 62</a>
         <ul class="nav-links" id="navLinks">
-            <li><a href="#photos">Photos</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#celebrate">Celebrate</a></li>
-            <li><a href="#connect">Connect</a></li>
+            <li><a href="javascript:void(0)" data-scroll="photos">Photos</a></li>
+            <li><a href="javascript:void(0)" data-scroll="about">About</a></li>
+            <li><a href="javascript:void(0)" data-scroll="celebrate">Celebrate</a></li>
+            <li><a href="javascript:void(0)" data-scroll="connect">Connect</a></li>
         </ul>
         <button class="mobile-menu-btn" id="mobileMenu" aria-label="Menu">
             <span></span><span></span><span></span>
@@ -931,20 +931,16 @@
         const mobileMenu = document.getElementById('mobileMenu');
         const navLinks = document.getElementById('navLinks');
         mobileMenu.addEventListener('click', () => { mobileMenu.classList.toggle('active'); navLinks.classList.toggle('active'); });
-        navLinks.querySelectorAll('a').forEach(l => l.addEventListener('click', () => { mobileMenu.classList.remove('active'); navLinks.classList.remove('active'); }));
-
-        document.querySelectorAll('a[href^="#"]').forEach(a => {
+        document.querySelectorAll('[data-scroll]').forEach(a => {
             a.addEventListener('click', function(e) {
                 e.preventDefault();
-                const href = this.getAttribute('href');
-                if (href && href.length > 1) {
-                    const t = document.querySelector(href);
-                    if (t) {
-                        t.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
-                } else {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                const id = this.getAttribute('data-scroll');
+                const t = document.getElementById(id);
+                if (t) {
+                    t.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
+                mobileMenu.classList.remove('active');
+                navLinks.classList.remove('active');
             });
         });
 
