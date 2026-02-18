@@ -774,7 +774,7 @@
     <div class="confetti-container" id="confetti"></div>
 
     <nav class="nav" id="nav">
-        <a href="#" class="nav-logo">Liaura <span>&#10038;</span> 62</a>
+        <a href="#home" class="nav-logo">Liaura <span>&#10038;</span> 62</a>
         <ul class="nav-links" id="navLinks">
             <li><a href="#photos">Photos</a></li>
             <li><a href="#about">About</a></li>
@@ -934,7 +934,18 @@
         navLinks.querySelectorAll('a').forEach(l => l.addEventListener('click', () => { mobileMenu.classList.remove('active'); navLinks.classList.remove('active'); }));
 
         document.querySelectorAll('a[href^="#"]').forEach(a => {
-            a.addEventListener('click', function(e) { e.preventDefault(); const t = document.querySelector(this.getAttribute('href')); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+            a.addEventListener('click', function(e) {
+                e.preventDefault();
+                const href = this.getAttribute('href');
+                if (href && href.length > 1) {
+                    const t = document.querySelector(href);
+                    if (t) {
+                        t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                } else {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            });
         });
 
         const reveals = document.querySelectorAll('.reveal');
